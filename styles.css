@@ -15,24 +15,26 @@ body {
 }
 
 .container {
+    width: 95%;
     max-width: 600px;
-    margin: 1rem auto;
-    padding: 2rem;
+    margin: 0.5rem auto;
+    padding: 1rem 1rem 3rem 1rem;
     background-color: var(--light-green);
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    position: relative;
 }
 
 h1 {
+    font-size: 1.8rem;
     margin-top: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     color: var(--text-green);
-    font-size: 2.5rem;
 }
 
 .timer {
-    font-size: 4rem;
+    font-size: 2rem;
     text-align: center;
     color: var(--text-green);
     margin: 1rem 0;
@@ -62,10 +64,10 @@ button:hover {
 
 .sound-controls {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin: 2rem auto;
-    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    width: 90%;
+    margin: 1.5rem auto;
 }
 
 .sound-btn {
@@ -95,8 +97,8 @@ button:hover {
 }
 
 .breathing-circle {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     background-color: var(--dark-green);
     position: relative;
@@ -108,15 +110,10 @@ button:hover {
 }
 
 .breathing-text {
-    font-size: 1.4rem;
-    color: white;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, calc(-50% - 80px));
+    font-size: 1.2rem;
+    color: var(--dark-green);
     text-align: center;
-    width: 100%;
-    z-index: 10;
+    margin-bottom: 2rem;
 }
 
 @keyframes breatheCircle {
@@ -135,57 +132,141 @@ button:hover {
     opacity: 0.5;
 }
 
-/* 반응형 디자인 */
-@media (max-width: 600px) {
+/* 태블릿 스타일 */
+@media (min-width: 768px) {
     .container {
-        margin: 0.5rem;
-        padding: 1rem;
+        width: 90%;
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 0.7rem;
     }
 
     .timer {
-        font-size: 2rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        font-size: 3rem;
     }
 
     .sound-controls {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-        width: 80%;
-        margin: 1.5rem auto;
-    }
-
-    .sound-btn {
-        padding: 1rem 0.5rem;
-        width: 100%;
-        font-size: 1rem;
-    }
-
-    .breathing-section {
-        margin-top: 2rem;
-        padding: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        width: 85%;
+        gap: 1.5rem;
     }
 
     .breathing-circle {
-        margin-top: 1rem;
+        width: 150px;
+        height: 150px;
+    }
+
+    .breathing-text {
+        font-size: 1.4rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .controls {
+        gap: 1.5rem;
+    }
+
+    button {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
     }
 }
 
-/* Footer 스타일 추가 */
+/* 데스크탑 스타일 */
+@media (min-width: 1024px) {
+    .container {
+        width: 80%;
+        max-width: 900px;
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .timer {
+        font-size: 4rem;
+    }
+
+    .sound-controls {
+        grid-template-columns: repeat(3, 1fr);
+        width: 80%;
+        gap: 2rem;
+    }
+
+    .breathing-circle {
+        width: 180px;
+        height: 180px;
+    }
+
+    .breathing-text {
+        font-size: 1.6rem;
+        margin-bottom: 3rem;
+    }
+
+    .controls {
+        gap: 2rem;
+    }
+
+    button {
+        padding: 1.2rem 2.5rem;
+        font-size: 1.2rem;
+    }
+
+    .sound-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Footer 기본 스타일 추가 */
 .footer {
-    position: fixed;
-    bottom: 20px;
+    position: absolute;  /* 컨테이너 기준으로 배치 */
+    bottom: 15px;
     right: 20px;
     font-size: 1rem;
     color: var(--dark-green);
     font-weight: 500;
 }
 
-/* 모바일 반응형에 footer 스타일 추가 */
-@media (max-width: 600px) {
+/* Footer 반응형 */
+@media (max-width: 767px) {
+    .container {
+        padding-bottom: 2.5rem;
+    }
+    
     .footer {
         bottom: 10px;
-        right: 10px;
+        right: 15px;
         font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+        padding-bottom: 3rem;
+    }
+    
+    .footer {
+        bottom: 15px;
+        right: 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding-bottom: 3.5rem;
+    }
+    
+    .footer {
+        bottom: 20px;
+        right: 25px;
+        font-size: 1.1rem;
     }
 } 
