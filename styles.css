@@ -1,0 +1,191 @@
+:root {
+    --primary-green: #98C9A3;    /* 메인 파스텔 그린 */
+    --light-green: #BFDAC5;      /* 밝은 파스텔 그린 */
+    --dark-green: #77A88D;       /* 어두운 파스텔 그린 */
+    --bg-green: #E8F3EC;         /* 배경색 연한 그린 */
+    --text-green: #2C4A3B;       /* 텍스트용 진한 그린 */
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-green);
+    color: var(--text-green);
+}
+
+.container {
+    max-width: 600px;
+    margin: 1rem auto;
+    padding: 2rem;
+    background-color: var(--light-green);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-green);
+    font-size: 2.5rem;
+}
+
+.timer {
+    font-size: 4rem;
+    text-align: center;
+    color: var(--text-green);
+    margin: 1rem 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--primary-green);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--dark-green);
+}
+
+.sound-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem auto;
+    width: 100%;
+}
+
+.sound-btn {
+    display: block;
+    padding: 1rem;
+    background-color: var(--primary-green);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.sound-btn:hover {
+    background-color: var(--dark-green);
+    transform: translateY(-2px);
+}
+
+.breathing-section {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: var(--light-green);
+    border-radius: 10px;
+    position: relative;
+}
+
+.breathing-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--dark-green);
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: breatheCircle 12s infinite ease-in-out;
+}
+
+.breathing-text {
+    font-size: 1.4rem;
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 80px));
+    text-align: center;
+    width: 100%;
+    z-index: 10;
+}
+
+@keyframes breatheCircle {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.25);
+    }
+}
+
+.separator {
+    height: 2px;
+    background-color: var(--primary-green);
+    margin: 2rem 0;
+    opacity: 0.5;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .container {
+        margin: 0.5rem;
+        padding: 1rem;
+    }
+
+    .timer {
+        font-size: 2rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .sound-controls {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        width: 80%;
+        margin: 1.5rem auto;
+    }
+
+    .sound-btn {
+        padding: 1rem 0.5rem;
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .breathing-section {
+        margin-top: 2rem;
+        padding: 1rem;
+    }
+
+    .breathing-circle {
+        margin-top: 1rem;
+    }
+}
+
+/* Footer 스타일 추가 */
+.footer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1rem;
+    color: var(--dark-green);
+    font-weight: 500;
+}
+
+/* 모바일 반응형에 footer 스타일 추가 */
+@media (max-width: 600px) {
+    .footer {
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.9rem;
+    }
+} 
