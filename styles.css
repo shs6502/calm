@@ -4,13 +4,16 @@
     --dark-green: #77A88D;       /* 어두운 파스텔 그린 */
     --bg-green: #E8F3EC;         /* 배경색 연한 그린 */
     --text-green: #2C4A3B;       /* 텍스트용 진한 그린 */
+    --gradient-start: #D4E7D9;   /* 그라데이션 시작 색상 수정 */
+    --gradient-end: #98C9A3;     /* 그라데이션 끝 색상 수정 */
 }
 
 body {
     margin: 0;
     min-height: 100vh;
     font-family: 'Arial', sans-serif;
-    background-color: var(--bg-green);
+    background: linear-gradient(45deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    background-attachment: fixed;
     color: var(--text-green);
 }
 
@@ -19,9 +22,11 @@ body {
     max-width: 600px;
     margin: 0.5rem auto;
     padding: 1rem 1rem 3rem 1rem;
-    background-color: var(--light-green);
+    background-color: rgba(255, 255, 255, 0.85);  /* 배경색 수정 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
     position: relative;
 }
@@ -101,12 +106,13 @@ button:hover {
     height: 120px;
     border-radius: 50%;
     background-color: var(--dark-green);
-    position: relative;
-    margin: 0 auto;
+    margin: 2rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
     animation: breatheCircle 12s infinite ease-in-out;
+    will-change: transform;
+    -webkit-animation: breatheCircle 12s infinite ease-in-out;
 }
 
 .breathing-text {
@@ -119,9 +125,20 @@ button:hover {
 @keyframes breatheCircle {
     0%, 100% {
         transform: scale(1);
+        -webkit-transform: scale(1);
     }
     50% {
         transform: scale(1.25);
+        -webkit-transform: scale(1.25);
+    }
+}
+
+@-webkit-keyframes breatheCircle {
+    0%, 100% {
+        -webkit-transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.25);
     }
 }
 
@@ -245,6 +262,16 @@ button:hover {
         right: 15px;
         font-size: 0.9rem;
     }
+
+    .meditation-container {
+        margin: 0.5rem 0;
+    }
+
+    .breathing-circle {
+        width: 100px;
+        height: 100px;
+        margin: 1.5rem auto;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -269,4 +296,13 @@ button:hover {
         right: 25px;
         font-size: 1.1rem;
     }
+}
+
+/* meditation-container 스타일 추가 */
+.meditation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+    position: relative;
 } 
