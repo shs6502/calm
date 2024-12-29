@@ -1,6 +1,10 @@
 let timer;
 let timeLeft;
 let isRunning = false;
+let currentSound = null;  // 현재 재생 중인 사운드 추적
+
+// Audio context 추가
+let audioContext;
 
 // Audio elements
 const sounds = {
@@ -9,18 +13,48 @@ const sounds = {
     forest: new Audio('sounds/forest.wav')
 };
 
+// 오디오 객체들 초기화
+Object.values(sounds).forEach(sound => {
+    sound.addEventListener('error', (e) => {
+        console.error('Error loading sound:', e);
+    });
+});
+
+// 오디오 초기화 함수
+async function initAudio() {
+    try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        await audioContext.resume();
+    } catch (error) {
+        console.error('Error initializing audio:', error);
+    }
+}
+
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-btn');
     const resetBtn = document.getElementById('reset-btn');
     const soundButtons = document.querySelectorAll('[data-sound]');
 
+    // 페이지 클릭 시 오디오 초기화
+    document.addEventListener('click', async () => {
+        if (!audioContext) {
+            await initAudio();
+        }
+    }, { once: true });
+
     startBtn.addEventListener('click', toggleTimer);
     resetBtn.addEventListener('click', resetTimer);
     
     // Sound button event listeners
     soundButtons.forEach(button => {
-        button.addEventListener('click', () => playSound(button.dataset.sound));
+        button.addEventListener('click', async () => {
+            try {
+                await playSound(button.dataset.sound);
+            } catch (error) {
+                console.error('Error playing sound:', error);
+            }
+        });
     });
 });
 
@@ -59,10 +93,15 @@ function startTimer() {
 function pauseTimer() {
     clearInterval(timer);
     // 모든 사운드 정지
-    Object.values(sounds).forEach(sound => {
-        sound.pause();
-        sound.currentTime = 0;
-    });
+    try {
+        Object.values(sounds).forEach(sound => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
+        currentSound = null;
+    } catch (error) {
+        console.error('Error pausing sounds:', error);
+    }
 }
 
 function resetTimer() {
@@ -73,10 +112,15 @@ function resetTimer() {
     updateTimerDisplay();
     
     // 모든 사운드 정지
-    Object.values(sounds).forEach(sound => {
-        sound.pause();
-        sound.currentTime = 0;
-    });
+    try {
+        Object.values(sounds).forEach(sound => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
+        currentSound = null;
+    } catch (error) {
+        console.error('Error resetting sounds:', error);
+    }
 }
 
 function updateTimerDisplay() {
@@ -88,17 +132,41 @@ function updateTimerDisplay() {
 }
 
 // Sound functions
-function playSound(soundName) {
-    // Stop all sounds first
-    Object.values(sounds).forEach(sound => {
-        sound.pause();
-        sound.currentTime = 0;
-    });
-    
-    // Play selected sound
-    if (sounds[soundName].paused) {
-        sounds[soundName].loop = true;
-        sounds[soundName].play();
+async function playSound(soundName) {
+    try {
+        // 오디오 컨텍스트가 없으면 초기화
+        if (!audioContext) {
+            await initAudio();
+        }
+
+        // 이전 사운드 정지
+        if (currentSound) {
+            try {
+                await currentSound.pause();
+                currentSound.currentTime = 0;
+            } catch (error) {
+                console.error('Error stopping current sound:', error);
+            }
+        }
+
+        // 새 사운드 재생
+        const sound = sounds[soundName];
+        if (sound) {
+            try {
+                sound.loop = true;
+                await sound.play();
+                currentSound = sound;
+            } catch (error) {
+                if (error.name === 'NotAllowedError') {
+                    console.log('Please interact with the page first');
+                    // 사용자에게 알림을 표시할 수 있습니다
+                } else {
+                    console.error('Error playing sound:', error);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error in playSound:', error);
     }
 }
 
@@ -119,3 +187,16 @@ function updateBreathingText() {
 }
 
 updateBreathingText(); 
+
+// Service Worker 등록
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
+} 
